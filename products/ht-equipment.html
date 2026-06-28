@@ -120,6 +120,7 @@
 .product-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.07);transition:all .3s ease;}
 .product-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(29,132,128,.18);}
 .product-icon{background:linear-gradient(135deg,#1D8480,#2BB3A3);padding:40px;text-align:center;font-size:48px;color:#fff;}
+.product-img{width:100%;height:220px;object-fit:cover;display:block;}
 .product-body{padding:28px;}
 .product-body h3{font-size:1.15rem;color:#0F2027;margin-bottom:10px;}
 .product-body p{color:#4a5568;font-size:.95rem;line-height:1.6;margin-bottom:16px;}
@@ -175,6 +176,130 @@
   </div>
 </section>
 
+<!-- ✅ ANIMATED PRODUCT SHOWCASE -->
+<section style="background:#0a1628;padding:60px 0;">
+  <div class="container">
+    <h2 style="text-align:center;color:#fff;font-size:1.6rem;margin-bottom:6px;">Product Showcase</h2>
+    <p style="text-align:center;color:#7a9bb5;font-size:0.95rem;margin-bottom:30px;">See each product part by part — tap to explore</p>
+
+    <!-- Showcase Tabs -->
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:30px;">
+      <button onclick="loadShowcase('ab')" id="tab-ab" style="padding:8px 20px;border-radius:50px;border:none;background:#1D8480;color:#fff;font-size:13px;cursor:pointer;font-weight:600;">⚡ Gang AB Switch</button>
+      <button onclick="loadShowcase('fuse')" id="tab-fuse" style="padding:8px 20px;border-radius:50px;border:2px solid #1a3a5c;background:transparent;color:#7a9bb5;font-size:13px;cursor:pointer;">🔌 DO Fuse Set</button>
+      <button onclick="loadShowcase('iso')" id="tab-iso" style="padding:8px 20px;border-radius:50px;border:2px solid #1a3a5c;background:transparent;color:#7a9bb5;font-size:13px;cursor:pointer;">🔩 11kV Isolator</button>
+    </div>
+
+    <!-- Stage -->
+    <div style="background:#0d1f3c;border-radius:20px;padding:24px;max-width:700px;margin:0 auto;">
+      <div style="display:flex;gap:16px;align-items:stretch;flex-wrap:wrap;">
+
+        <!-- Image Panel -->
+        <div style="flex:1;min-width:240px;border-radius:14px;overflow:hidden;background:#1a3a5c;position:relative;min-height:240px;">
+          <img id="sc-img" src="../images/gang-ab-switch.jpg" alt="Product" style="width:100%;height:240px;object-fit:cover;display:block;transition:opacity 0.5s ease;"/>
+          <div id="sc-part-badge" style="position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,0.7);color:#fff;font-size:11px;padding:4px 12px;border-radius:20px;backdrop-filter:blur(4px);">Complete Unit</div>
+          <div id="sc-num" style="position:absolute;top:10px;right:10px;background:#1D8480;color:#fff;font-size:11px;padding:4px 10px;border-radius:20px;font-weight:600;">1 / 3</div>
+        </div>
+
+        <!-- Info Panel -->
+        <div style="flex:1;min-width:200px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div>
+            <div id="sc-tag" style="display:inline-block;background:#1D848020;color:#1D8480;font-size:11px;padding:3px 12px;border-radius:20px;margin-bottom:10px;border:1px solid #1D848050;">In Stock</div>
+            <h3 id="sc-title" style="color:#fff;font-size:1.1rem;margin-bottom:8px;line-height:1.4;">Gang AB Switch (Air Break Switch)</h3>
+            <p id="sc-desc" style="color:#7a9bb5;font-size:13px;line-height:1.6;margin-bottom:14px;">Three-phase gang operated air break switch for 11kV and 33kV overhead HT distribution lines. WBSEDCL approved.</p>
+            <div id="sc-specs" style="display:flex;flex-direction:column;gap:5px;"></div>
+          </div>
+          <div>
+            <!-- Progress -->
+            <div style="background:#1a3a5c;border-radius:3px;height:3px;margin:14px 0 10px;">
+              <div id="sc-progress" style="height:100%;background:#1D8480;border-radius:3px;width:33%;transition:width 0.4s ease;"></div>
+            </div>
+            <!-- Dots -->
+            <div id="sc-dots" style="display:flex;gap:6px;margin-bottom:12px;"></div>
+            <!-- Controls -->
+            <div style="display:flex;gap:8px;">
+              <button onclick="scPrev()" style="flex:1;padding:8px;border-radius:50px;border:1px solid #1a3a5c;background:transparent;color:#7a9bb5;font-size:12px;cursor:pointer;">← Prev</button>
+              <button id="sc-play" onclick="scToggle()" style="flex:1;padding:8px;border-radius:50px;border:none;background:#1D8480;color:#fff;font-size:12px;cursor:pointer;font-weight:600;">⏸ Pause</button>
+              <button onclick="scNext()" style="flex:1;padding:8px;border-radius:50px;border:1px solid #1a3a5c;background:transparent;color:#7a9bb5;font-size:12px;cursor:pointer;">Next →</button>
+            </div>
+            <a href="https://wa.me/917980276522?text=Hi, I need a quote for this product" style="display:block;margin-top:10px;text-align:center;background:#25D366;color:#fff;padding:10px;border-radius:50px;font-size:13px;font-weight:600;text-decoration:none;">💬 WhatsApp Enquiry</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+const showcases = {
+  ab: {
+    parts: [
+      { img: '../images/gang-ab-switch.jpg', part: 'Complete Unit', title: 'Gang AB Switch (Air Break Switch)', desc: 'Three-phase gang operated air break switch for 11kV and 33kV overhead HT distribution lines. WBSEDCL approved.', specs: ['Voltage: 11kV and 33kV', 'Gang operated (3-phase)', 'Outdoor overhead lines', 'WBSEDCL / DISCOM specs'] },
+      { img: '../images/gang-ab-switch-2.jpg', part: 'Assembled View', title: 'Gang AB Switch — Assembled', desc: 'Full assembly showing porcelain insulators, copper connectors, GI frame, and operating mechanism ready for installation.', specs: ['Porcelain insulators', 'Copper bus bar', 'GI galvanized frame', 'Pan-India supply'] },
+      { img: '../images/overhead-line.jpg', part: 'Installed on Line', title: 'Installation on Overhead Line', desc: 'Gang AB Switch installed on 11kV overhead distribution line with disc insulators and strain hardware fittings.', specs: ['Pole-top mounting', 'Complete hardware included', 'Weather-proof design', 'ISO 9001:2015 certified'] }
+    ]
+  },
+  fuse: {
+    parts: [
+      { img: '../images/do-fuse-set.jpg', part: 'Complete DO Fuse Set', title: '11kV Drop Out Fuse (DO Fuse Set)', desc: 'Complete 11kV Drop Out Fuse Set with polymer insulators, fuse carrier, and mounting hardware. WBSEDCL approved.', specs: ['Voltage: 11kV', 'Polymer / Porcelain insulator', 'Complete set with fuse wire', 'ISI / DISCOM compliant'] },
+      { img: '../images/do-fuse-set-2.jpg', part: 'Fuse Carrier Detail', title: 'DO Fuse — Fuse Carrier & Barrel', desc: 'Fuse barrel and carrier assembly ensures reliable overcurrent protection. Easy replacement in the field.', specs: ['Drop-out mechanism', 'Fuse barrel included', 'Field replaceable', 'Bulk orders available'] },
+      { img: '../images/11kv-isolator.jpg', part: 'With Isolator', title: 'DO Fuse with Isolator Assembly', desc: 'Complete protection assembly with DO Fuse and Isolator for substation and overhead line protection.', specs: ['Combined protection', 'Substation application', 'Pan-India supply', 'GST invoice provided'] }
+    ]
+  },
+  iso: {
+    parts: [
+      { img: '../images/11kv-isolator.jpg', part: 'Complete Isolator', title: '11kV–33kV Porcelain Isolator', desc: 'Single and double break porcelain isolators for 11kV and 33kV distribution substations. State EB approved.', specs: ['Voltage: 11kV and 33kV', 'Single and double break', 'State EB / DISCOM approved', 'ISO 9001:2015 certified'] },
+      { img: '../images/post-insulator.jpg', part: 'Post Insulator', title: 'Post Insulator (HT / LT)', desc: 'High dielectric strength porcelain post insulators for overhead power lines and substation bus bars.', specs: ['High dielectric strength', 'Weather resistant glaze', 'HT and LT application', 'IS standard compliant'] },
+      { img: '../images/disc-insulator.jpg', part: 'Disc Insulator', title: 'Porcelain Disc Insulator', desc: 'String disc insulators for high voltage overhead transmission and distribution lines. Bulk supply available.', specs: ['For HV overhead lines', 'String assembly', 'Bulk supply available', 'Pan-India delivery'] }
+    ]
+  }
+};
+
+let scCurrent = 0;
+let scActive = 'ab';
+let scPlaying = true;
+let scTimer = null;
+
+function loadShowcase(type) {
+  scActive = type;
+  scCurrent = 0;
+  ['ab','fuse','iso'].forEach(t => {
+    const btn = document.getElementById('tab-'+t);
+    if(btn) { btn.style.background = t===type ? '#1D8480' : 'transparent'; btn.style.color = t===type ? '#fff' : '#7a9bb5'; btn.style.border = t===type ? 'none' : '2px solid #1a3a5c'; }
+  });
+  scShow();
+  if(scPlaying) scStart();
+}
+
+function scShow() {
+  const data = showcases[scActive];
+  const p = data.parts[scCurrent];
+  const img = document.getElementById('sc-img');
+  img.style.opacity = '0';
+  setTimeout(() => {
+    img.src = p.img;
+    img.onload = () => { img.style.opacity = '1'; };
+    img.style.opacity = '1';
+  }, 300);
+  document.getElementById('sc-part-badge').textContent = p.part;
+  document.getElementById('sc-num').textContent = (scCurrent+1) + ' / ' + data.parts.length;
+  document.getElementById('sc-title').textContent = p.title;
+  document.getElementById('sc-desc').textContent = p.desc;
+  document.getElementById('sc-progress').style.width = ((scCurrent+1)/data.parts.length*100)+'%';
+  const specsEl = document.getElementById('sc-specs');
+  specsEl.innerHTML = p.specs.map(s => `<div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#7a9bb5;"><span style="color:#1D8480;font-size:10px;">●</span>${s}</div>`).join('');
+  const dots = document.getElementById('sc-dots');
+  dots.innerHTML = data.parts.map((_,i) => `<div onclick="scGo(${i})" style="width:8px;height:8px;border-radius:50%;background:${i===scCurrent?'#1D8480':'#1a3a5c'};cursor:pointer;transition:all 0.3s;transform:scale(${i===scCurrent?1.3:1});"></div>`).join('');
+}
+
+function scGo(i) { scCurrent = i; scShow(); }
+function scNext() { scCurrent = (scCurrent+1) % showcases[scActive].parts.length; scShow(); }
+function scPrev() { scCurrent = (scCurrent-1+showcases[scActive].parts.length) % showcases[scActive].parts.length; scShow(); }
+function scToggle() { scPlaying = !scPlaying; document.getElementById('sc-play').textContent = scPlaying ? '⏸ Pause' : '▶ Play'; scPlaying ? scStart() : clearInterval(scTimer); }
+function scStart() { clearInterval(scTimer); scTimer = setInterval(scNext, 3000); }
+
+loadShowcase('ab');
+</script>
+
 <!-- Products -->
 <section class="products-section">
   <div class="container">
@@ -183,7 +308,7 @@
     <div class="products-grid">
 
       <div class="product-card">
-        <div class="product-icon">⚡</div>
+        <img class="product-img" src="../images/gang-ab-switch.jpg" alt="Gang AB Switch Air Break Switch" loading="lazy">
         <div class="product-body">
           <h3>Gang AB Switch (Air Break Switch)</h3>
           <p>Three-phase gang operated air break switches for overhead HT distribution lines.</p>
@@ -198,7 +323,7 @@
       </div>
 
       <div class="product-card">
-        <div class="product-icon">🔩</div>
+        <img class="product-img" src="../images/11kv-isolator.jpg" alt="11kV 33kV Porcelain Isolator" loading="lazy">
         <div class="product-body">
           <h3>11kV–33kV Porcelain Isolator</h3>
           <p>High voltage porcelain isolators for distribution substations and overhead lines.</p>
@@ -213,7 +338,7 @@
       </div>
 
       <div class="product-card">
-        <div class="product-icon">🔌</div>
+        <img class="product-img" src="../images/do-fuse-set.jpg" alt="11kV Drop Out Fuse DO Fuse Set" loading="lazy">
         <div class="product-body">
           <h3>11kV Drop Out Fuse (DO Fuse Set)</h3>
           <p>Drop out fuse sets for protection of overhead 11kV distribution lines and transformers.</p>
@@ -228,7 +353,7 @@
       </div>
 
       <div class="product-card">
-        <div class="product-icon">🏗️</div>
+        <img class="product-img" src="../images/post-insulator.jpg" alt="Post Insulator" loading="lazy">
         <div class="product-body">
           <h3>Post Insulator</h3>
           <p>Porcelain and polymer post insulators for substation and distribution line applications.</p>
@@ -243,7 +368,7 @@
       </div>
 
       <div class="product-card">
-        <div class="product-icon">⚙️</div>
+        <img class="product-img" src="../images/single-break-switch.jpg" alt="Single Break Switch" loading="lazy">
         <div class="product-body">
           <h3>Single Break Switch</h3>
           <p>Single break air break switches for 11kV overhead distribution systems.</p>
@@ -258,7 +383,7 @@
       </div>
 
       <div class="product-card">
-        <div class="product-icon">🔋</div>
+        <img class="product-img" src="../images/disc-insulator.jpg" alt="Porcelain Disc Insulator" loading="lazy">
         <div class="product-body">
           <h3>Porcelain Disc Insulator</h3>
           <p>Standard disc insulators for overhead transmission and distribution lines.</p>

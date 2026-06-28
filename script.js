@@ -338,57 +338,51 @@ window.addEventListener('load', () => {
   });
 });
 
-// ====== AI CHAT (Powered by Claude API) ======
-const JK_SYSTEM_PROMPT = `You are the JK Allied Industries AI assistant. You help customers with product enquiries, pricing, and orders. Be concise, friendly and professional. Always respond in under 3 sentences unless listing products.
+// ====== AI CHAT (Smart Keyword Bot) ======
+const botReplies = [
+  { keys: ['gang','ab switch','air break'], reply: '⚡ <b>Gang AB Switch</b><br>Available in 11kV and 33kV. Gang operated 3-phase switch for overhead HT lines. WBSEDCL approved.<br><br>📞 Call/WhatsApp: <a href="https://wa.me/917980276522">+91 79802 76522</a>' },
+  { keys: ['do fuse','drop out','fuse set','fuse'], reply: '🔌 <b>11kV DO Fuse Set</b><br>Complete Drop Out Fuse Set with polymer/porcelain insulator. Price: ₹1,300/set. Bulk orders welcome!<br><br>📞 <a href="https://wa.me/917980276522">WhatsApp for bulk quote</a>' },
+  { keys: ['isolator','porcelain isolator'], reply: '🔩 <b>Porcelain Isolator</b><br>Available in 11kV and 33kV, single and double break. State EB/DISCOM approved. Price: ₹15,000 for 33kV.<br><br>📞 <a href="https://wa.me/917980276522">+91 79802 76522</a>' },
+  { keys: ['disc insulator','disc'], reply: '💿 <b>Porcelain Disc Insulator</b><br>For HV overhead lines. Price: ₹350/disc. Disc hardware available at ₹195.<br><br>📞 <a href="https://wa.me/917980276522">WhatsApp for bulk order</a>' },
+  { keys: ['post insulator'], reply: '🏗️ <b>Post Insulator</b><br>High dielectric strength porcelain post insulators for HT/LT lines and substation bus bars. Pan-India supply.<br><br>📞 <a href="https://wa.me/917980276522">+91 79802 76522</a>' },
+  { keys: ['clamp','lt clamp','ht clamp'], reply: '🔧 <b>MS Clamps</b><br>• LT Mild Steel Clamp: ₹200<br>• HT Mild Steel Clamp: ₹200<br>• Cable Suspension Clamp: ₹65<br>• Bed Joint Clamp: ₹80/kg<br><br>📞 <a href="https://wa.me/917980276522">Call for bulk pricing</a>' },
+  { keys: ['smc','distribution box','lt box','rdss'], reply: '📦 <b>Distribution Boxes</b><br>• SMC Distribution Box (WBSEDCL spec)<br>• WBSEDCL RDSS LT Box: ₹450<br>• MS/PC/ABS Junction Box: ₹2,500<br><br>📞 <a href="https://wa.me/917980276522">+91 79802 76522</a>' },
+  { keys: ['casting','metal casting','ci','aluminium','brass'], reply: '🏭 <b>Metal Castings</b><br>• CI Casting: ₹550/kg<br>• Aluminium Casting: ₹550/kg<br>• Brass Casting: ₹1,200/kg<br>Custom sizes available.<br><br>📞 <a href="https://wa.me/917980276522">WhatsApp for quote</a>' },
+  { keys: ['trolley','wheelbarrow','wheel barrow'], reply: '🛒 <b>Trolleys</b><br>• Double Wheel Barrow Trolley: ₹3,000<br>• 500Kg Rubber Wheel Trolley: ₹1,800<br>• Platform/Hand Trolley available<br><br>📞 <a href="https://wa.me/917980276522">+91 79802 76522</a>' },
+  { keys: ['wheel','uhmwpe','pu wheel','polymer wheel'], reply: '⚙️ <b>Trolley Wheels</b><br>• UHMWPE Wheel: ₹450<br>• PU (Polyurethane) Wheel: ₹240<br>• Hard Polymer Wheel: ₹128<br>• Plastic Wheel: ₹65<br><br>📞 <a href="https://wa.me/917980276522">WhatsApp for bulk</a>' },
+  { keys: ['rubber','conveyor belt','gym mat','cow mat'], reply: '♾️ <b>Rubber Products</b><br>• Conveyor Belt: ₹1,000/m<br>• Endless Belt: ₹20,000<br>• Gym Rubber Mat: ₹300<br>• Cow Rubber Mat: ₹2,800<br><br>📞 <a href="https://wa.me/917980276522">+91 79802 76522</a>' },
+  { keys: ['price','cost','rate','how much','pricing'], reply: '💰 <b>Our Price List</b><br>• DO Fuse Set: ₹1,300<br>• RDSS LT Box: ₹450<br>• LT/HT Clamp: ₹200<br>• Disc Insulator: ₹350<br>• Wheelbarrow: ₹3,000<br><br>For bulk/custom pricing: <a href="https://wa.me/917980276522">WhatsApp us</a>' },
+  { keys: ['bulk','wholesale','large order','quantity'], reply: '📦 <b>Bulk Orders Welcome!</b><br>We supply pan-India to DISCOMs, contractors and engineers. Special bulk pricing available.<br><br>📞 <a href="https://wa.me/917980276522">WhatsApp: +91 79802 76522</a><br>📧 jkalliedindustries@gmail.com' },
+  { keys: ['location','address','where','howrah','bankra'], reply: '📍 <b>Our Location</b><br>JK Allied Industries<br>Bankra, Howrah, West Bengal – 711403<br><br>📞 <a href="https://wa.me/917980276522">+91 79802 76522</a><br>📧 jkalliedindustries@gmail.com' },
+  { keys: ['iso','certified','certificate','quality'], reply: '✅ <b>ISO 9001:2015 Certified</b><br>JK Allied Industries is ISO 9001:2015 certified. All products meet Indian power sector standards. GST invoice provided on every order.' },
+  { keys: ['wbsedcl','discom','approved'], reply: '✅ <b>WBSEDCL / DISCOM Approved</b><br>Our products are approved for use by WBSEDCL and other DISCOMs across India. We supply directly to contractors and power utilities.' },
+  { keys: ['delivery','shipping','pan india','supply'], reply: '🚚 <b>Pan-India Delivery</b><br>We supply across all states in India. Fast dispatch from Bankra, Howrah.<br><br>📞 <a href="https://wa.me/917980276522">Call for delivery timeline: +91 79802 76522</a>' },
+  { keys: ['earthing','earthing pipe','gi earthing'], reply: '🌍 <b>Earthing Materials</b><br>• GI Earthing Pipe: ₹340<br>Complete earthing solutions for substations and overhead lines.<br><br>📞 <a href="https://wa.me/917980276522">+91 79802 76522</a>' },
+  { keys: ['stay','stay wire','gi pin','strain'], reply: '🔗 <b>Overhead Line Materials</b><br>Stay sets, GI pins, strain hardware fittings, disc hardware — all available.<br><br>📞 <a href="https://wa.me/917980276522">WhatsApp for complete list</a>' },
+  { keys: ['hello','hi','hey','namaste'], reply: '👋 <b>Hello! Welcome to JK Allied Industries!</b><br>I can help you with:<br>• Product information<br>• Pricing<br>• Bulk orders<br>• Delivery<br><br>What are you looking for today?' },
+  { keys: ['thank','thanks','ok','okay'], reply: '😊 Happy to help! For any further queries, our team is just a WhatsApp away.<br><br>📞 <a href="https://wa.me/917980276522">+91 79802 76522</a>' },
+  { keys: ['product','products','catalogue','catalog'], reply: '📋 <b>Our Products</b><br>1. HT Equipment (AB Switch, DO Fuse, Isolator)<br>2. Hardware & Distribution (Clamps, SMC Box)<br>3. Overhead Line Materials<br>4. Rubber & Industrial Products<br>5. Material Handling (Trolleys, Wheels)<br><br>Which category interests you?' },
+];
 
-Company info:
-- Name: JK Allied Industries
-- Location: Bankra, Howrah, West Bengal – 711403
-- Proprietor: N Khan
-- Phone/WhatsApp: +91 79802 76522
-- Email: jkalliedindustries@gmail.com
-- ISO 9001:2015 certified, GST registered
-- Supplies pan-India to DISCOMs, contractors, engineers
+const defaultReply = '🤝 Thanks for your message! For the fastest response, please WhatsApp our team directly.<br><br>📞 <a href="https://wa.me/917980276522" target="_blank">WhatsApp: +91 79802 76522</a><br>📧 jkalliedindustries@gmail.com<br><br>Or try asking about: <i>prices, trolleys, clamps, AB switch, DO fuse, isolator</i>';
 
-Products & Prices:
-HT Equipment: 11kV Drop Out Fuse ₹1,300/set, 33kV Porcelain Isolator ₹15,000, 11kV Disc Hardware ₹195, Porcelain Disc Insulator ₹350, GI Earthing Pipe ₹340
-Clamps: Cable Suspension ₹65, Bed Joint ₹80/kg, LT Clamp ₹200, HT Clamp ₹200
-Castings: CI ₹550, Aluminium ₹550/kg, Brass ₹1200/kg
-Junction Boxes: MS/PC/ABS ₹2500, WBSEDCL RDSS LT Box ₹450
-Trolleys: Double Wheel Barrow ₹3000, 500Kg Rubber Trolley ₹1800
-Rubber: Conveyor Belt ₹1000/m, Endless Belt ₹20,000, Gym Mat ₹300, Cow Mat ₹2800
-Wheels: UHMWPE ₹450, PU ₹240, Hard Polymer ₹128, Plastic ₹65
-
-Always encourage customers to WhatsApp or call for bulk pricing and custom orders.`;
+function getSmartReply(msg) {
+  const lower = msg.toLowerCase();
+  for (const item of botReplies) {
+    if (item.keys.some(k => lower.includes(k))) return item.reply;
+  }
+  return defaultReply;
+}
 
 let chatHistory = [];
 
 async function getAIReply(userMsg) {
   chatHistory.push({ role: 'user', content: userMsg });
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
-        system: JK_SYSTEM_PROMPT,
-        messages: chatHistory
-      })
-    });
-    const data = await response.json();
-    const reply = data.content && data.content[0] ? data.content[0].text : aiKnowledge.default;
-    chatHistory.push({ role: 'assistant', content: reply });
-    return reply;
-  } catch(e) {
-    return aiKnowledge.default;
-  }
+  const reply = getSmartReply(userMsg);
+  chatHistory.push({ role: 'assistant', content: reply });
+  return reply;
 }
 
-// Fallback keyword replies (used if API fails)
-const aiKnowledge = {
-  "default": "Thanks for your question! For the most accurate answer, please WhatsApp or call us at +91 79802 76522. Our team will get back to you promptly."
-};
 
 function addMsg(text, sender){
   const messages = document.getElementById('aiMessages');
