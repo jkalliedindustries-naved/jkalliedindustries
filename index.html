@@ -569,5 +569,59 @@
 </div>
 
 <script src="script.js"></script>
+
+<!-- ✅ GA4 EVENT TRACKING: WhatsApp, Call, Form Submit -->
+<script>
+(function () {
+  function fireEvent(name, params) {
+    if (typeof gtag === 'function') {
+      gtag('event', name, params || {});
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Track every WhatsApp link click (wa.me)
+    document.querySelectorAll('a[href*="wa.me"]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        fireEvent('whatsapp_click', {
+          link_location: el.closest('[id]') ? el.closest('[id]').id : 'unknown',
+          link_url: el.href
+        });
+      });
+    });
+
+    // Track every phone/call link click (tel:)
+    document.querySelectorAll('a[href^="tel:"]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        fireEvent('phone_click', {
+          link_location: el.closest('[id]') ? el.closest('[id]').id : 'unknown',
+          link_url: el.href
+        });
+      });
+    });
+
+    // Track every IndiaMART outbound link click
+    document.querySelectorAll('a[href*="indiamart.com"]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        fireEvent('indiamart_click', {
+          link_location: el.closest('[id]') ? el.closest('[id]').id : 'unknown',
+          link_url: el.href
+        });
+      });
+    });
+
+    // Track enquiry form submission
+    var enquiryForm = document.getElementById('contactForm');
+    if (enquiryForm) {
+      enquiryForm.addEventListener('submit', function () {
+        var productField = document.getElementById('product');
+        fireEvent('enquiry_form_submit', {
+          product_category: productField ? productField.value : 'not specified'
+        });
+      });
+    }
+  });
+})();
+</script>
 </body>
 </html>
